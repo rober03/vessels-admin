@@ -1,12 +1,12 @@
 package controllers
 
 import play.api.libs.json.JsValue
-import play.api.mvc.{AnyContent, Action, Controller}
+import play.api.mvc.{Action, AnyContent}
 
 /**
  * Created by roberto on 19/03/2015.
  */
-abstract class VesselAbstractController extends Controller {
+trait VesselAbstractController {
   def vessels: Action[AnyContent]
 
   def vessel(id: String): Action[AnyContent]

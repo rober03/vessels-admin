@@ -14,19 +14,19 @@ services.service("VesselShare", function(){
 })
 
 services.service("VesselService", function($http,$q){
-    this.add = function(vessel) {
-        return $http.post("/vessel",vessel).then(handleSuccess,handleError);
+    this.add = function(vessel,handleSuccess) {
+        return $http.post("/vessel",vessel).then(handleSuccess(),handleError);
     }
 
-    this.edit = function(vessel) {
-        return $http.put("/vessel/"+vessel.id,vessel).then(handleSuccess,handleError);
+    this.edit = function(vessel,handleSuccess) {
+        return $http.put("/vessel/"+vessel.id,vessel).then(handleSuccess(),handleError);
     }
 
     this.get = function(){
         return $http.get("/vessels").then(handleSuccess,handleError);
     }
 
-    this.remove = function(vessel) {
+    this.remove = function(vessel,handleSuccess) {
         return  $http.delete("/vessel/"+vessel.id,
             {   dataType: "json",
                 data: vessel,
@@ -52,4 +52,5 @@ services.service("VesselService", function($http,$q){
     function handleSuccess( response ) {
         return( response.data );
     }
+
 })

@@ -28,10 +28,13 @@ vesselsAdminApp.controller('VesselMenuController',
         $location.path('/edit/'+vessel.id);
     }
 
+    function handleSuccess () {
+        $route.reload();
+    }
+
     $scope.deleteVessel = function() {
         $scope.cancel();
-        VesselService.remove(vessel);
-        $route.reload()
+        VesselService.remove($scope.vessel,handleSuccess);
     }
 
     $scope.cancel = function () {
@@ -45,9 +48,12 @@ vesselsAdminApp.controller('VesselNewController', function($scope,$location,Vess
     $scope.buttonName = "Add";
     $scope.idNonEditable = false;
 
-    $scope.submit = function() {
-        VesselService.add($scope.vessel)
+    function handleSuccess () {
         $location.path('/');
+    }
+
+    $scope.submit = function() {
+        VesselService.add($scope.vessel, handleSuccess);
     }
 
     $scope.cancel = function() {
@@ -63,9 +69,12 @@ vesselsAdminApp.controller('VesselEditController', function($scope,$location,ves
     $scope.idNonEditable = true;
     $scope.buttonName = "Edit";
 
-    $scope.submit = function() {
-        VesselService.edit($scope.vessel);
+    function handleSuccess () {
         $location.path('/');
+    }
+
+    $scope.submit = function() {
+        VesselService.edit($scope.vessel, handleSuccess);
     }
 
     $scope.cancel = function() {

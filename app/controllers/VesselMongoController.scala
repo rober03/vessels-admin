@@ -14,7 +14,7 @@ import play.modules.reactivemongo.json.collection.JSONCollection
 /**
  * Created by roberto on 13/03/2015.
  */
-class VesselMongoController extends VesselAbstractController with MongoController {
+class VesselMongoController extends Controller with VesselAbstractController with MongoController {
   import models.JsonFormats._
 
   def collection: JSONCollection = db.collection[JSONCollection]("vessels")
