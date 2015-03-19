@@ -13,6 +13,5 @@ libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % "3.3.2-2",
   "org.webjars" % "angularjs" % "1.3.14",
   "org.webjars" % "angular-ui-bootstrap" % "0.12.1-1",
-  "com.google.inject" % "guice" % "3.0",
-  "javax.inject" % "javax.inject" % "1"
+  "com.google.inject" % "guice" % "3.0"
 )

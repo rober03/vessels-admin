@@ -14,7 +14,7 @@ import play.modules.reactivemongo.json.collection.JSONCollection
 /**
  * Created by roberto on 13/03/2015.
  */
-object VesselMongoController extends VesselAbstractController with MongoController {
+class VesselMongoController extends VesselAbstractController with MongoController {
   import models.JsonFormats._
 
   def collection: JSONCollection = db.collection[JSONCollection]("vessels")
@@ -24,7 +24,7 @@ object VesselMongoController extends VesselAbstractController with MongoControll
   def vessel(id: String) = getVessel(Json.obj("id" -> id))
 
   def deleteVessel(id: String) = Action.async(parse.json) {request =>
-    collection.remove(Json.obj("id" -> id)).map { lastError  => validateResult("Create",lastError) }
+    collection.remove(Json.obj("id" -> id)).map { lastError  => validateResult("Remove",lastError) }
   }
 
   def editVessel(id:String) = Action.async(parse.json) {request =>
