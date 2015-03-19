@@ -9,8 +9,8 @@ GET           /                    controllers.Application.index
 GET           /assets/*file        controllers.Assets.at(path="/public", file)
 
 # Vessels Administration
-GET           /vessels                          controllers.VesselController.vessels
-GET           /vessel/:id                       controllers.VesselController.vessel(id:String)
-POST          /vessel                           controllers.VesselController.newVessel
-DELETE        /vessel/:id                       controllers.VesselController.deleteVessel(id:String)
-PUT           /vessel/:width/:length/:draft     controllers.VesselController.editVessel(width: String, length: String, draft: String)
+GET           /vessels             @controllers.VesselAbstractController.vessels
+GET           /vessel/:id          @controllers.VesselAbstractController.vessel(id:String)
+POST          /vessel              @controllers.VesselAbstractController.newVessel
+DELETE        /vessel/:id          @controllers.VesselAbstractController.deleteVessel(id:String)
+PUT           /vessel/:id          @controllers.VesselAbstractController.editVessel(id: String)

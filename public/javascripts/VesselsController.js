@@ -22,7 +22,7 @@ vesselsAdminApp.controller('VesselController', function($scope,$http){
     }
 
     $scope.editVessel = function(vessel) {
-        $http.put("/vessel/"+vessel.width+"/"+vessel.length+"/"+vessel.draft,vessel).success(function(status){
+        $http.put("/vessel/"+vessel.id,vessel).success(function(status){
             $scope.status = status;
             $scope.loadVessels();
         });
