@@ -1,9 +1,13 @@
 var vesselsAdminApp = angular.module('VesselsAdminApp', ['vessel.services','ngRoute','ui.bootstrap']);
 
-vesselsAdminApp.controller('VesselViewController', function($scope,vessels, $modal){
-    $scope.vessels = vessels[0];
-    $scope.title = "Vessels List";
 
+/**
+ * Controller for principal view.
+ */
+vesselsAdminApp.controller('VesselViewController', function($scope,vessels, $modal){
+    $scope.vessels = vessels[0];    //Vessels list, the [0] is because of an array of arrays is returned from server
+
+    // Opens the modal when click in row. The appropriate vessel is passed to VesselMenuController
     $scope.showVesselOptions = function(vesselSelected) {
         $modal.open({
             templateUrl: '/assets/templates/modal-menu.html',
@@ -17,34 +21,44 @@ vesselsAdminApp.controller('VesselViewController', function($scope,vessels, $mod
     }
 });
 
+/**
+ * Controls the Menu Modal.
+ */
 vesselsAdminApp.controller('VesselMenuController',
     function($scope,$modalInstance,$location,vessel,VesselShare,VesselService,$route){
 
-    $scope.vessel = vessel;
+    $scope.vessel = vessel; //Vessel selected
 
+    /* Makes a drill down to the Vessel form.
+    We use the VesselShare service in order to pass the corresponding vessel to the edit controller
+     */
     $scope.editVessel = function() {
         $scope.cancel();
         VesselShare.setVessels(vessel);
         $location.path('/edit/'+vessel.id);
-    }
+    };
 
     function handleSuccess () {
         $route.reload();
     }
 
+    // Delete request. If is a success then whe reload de view.
     $scope.deleteVessel = function() {
         $scope.cancel();
         VesselService.remove($scope.vessel,handleSuccess);
-    }
+    };
 
+    // Close modal
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
 });
 
+/**
+ * Control the new vessel additions.
+ */
 vesselsAdminApp.controller('VesselNewController', function($scope,$location,VesselService){
 
-    $scope.title = "Vessels Form";
     $scope.buttonName = "Add";
     $scope.idNonEditable = false;
 
@@ -52,19 +66,23 @@ vesselsAdminApp.controller('VesselNewController', function($scope,$location,Vess
         $location.path('/');
     }
 
+    // Add request. If is a success then we return to the vessels list.
     $scope.submit = function() {
         VesselService.add($scope.vessel, handleSuccess);
-    }
+    };
 
+    //return to the vessels list.
     $scope.cancel = function() {
         $location.path('/');
     }
 
 });
 
+/**
+ * Control vessel editions.
+ */
 vesselsAdminApp.controller('VesselEditController', function($scope,$location,vessel,VesselService){
 
-    $scope.title = "Vessels Form";
     $scope.vessel = vessel;
     $scope.idNonEditable = true;
     $scope.buttonName = "Edit";
@@ -73,20 +91,26 @@ vesselsAdminApp.controller('VesselEditController', function($scope,$location,ves
         $location.path('/');
     }
 
+    // Edit request. If is a success then we return to the vessels list.
     $scope.submit = function() {
         VesselService.edit($scope.vessel, handleSuccess);
-    }
+    };
 
+    //return to the vessels list.
     $scope.cancel = function() {
         $location.path('/');
     }
 });
 
+/**
+ * Configurate app.
+ */
 vesselsAdminApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/', {
             controller: 'VesselViewController',
             resolve: {
+                // Obtaining a list of vessels from VesselService each time this route is located
                 vessels: function(VesselService) {
                     return VesselService.get();
                 }

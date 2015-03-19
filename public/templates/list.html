@@ -1,5 +1,6 @@
-<h2>{{title}}</h2>
+<h2>Vessels List</h2>
 
+    <input placeholder="Filter" ng-model="filterText" class="form-control">
     <div class="table-responsive">
         <table class="table table-hover">
             <tr>
@@ -9,7 +10,7 @@
                 <th>draft</th>
             </tr>
 
-            <tr ng-repeat="vessel in vessels" ng-click="showVesselOptions(vessel)">
+            <tr ng-repeat="vessel in vessels | filter:filterText" ng-click="showVesselOptions(vessel)">
                 <td>{{vessel.id}}</td>
                 <td>{{vessel.width}}</td>
                 <td>{{vessel.length}}</td>

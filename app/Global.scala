@@ -7,16 +7,18 @@ import play.api.GlobalSettings
  */
 object Global extends GlobalSettings {
 
+  /**
+   * Configuring our dependencies
+   */
   val injector = Guice.createInjector(new AbstractModule {
-
     protected def configure() {
+      // VesselAbstractController <- VesselMongoController
       bind(classOf[VesselAbstractController]).to(classOf[VesselMongoController])
     }
   })
 
   /**
-   * Controllers must be resolved through the application context. There is a special method of GlobalSettings
-   * that we can override to resolve a given controller. This resolution is required by the Play router.
+   * Overriding the default play´s injector
    */
   override def getControllerInstance[A](controllerClass: Class[A]): A = injector.getInstance(controllerClass)
 }
